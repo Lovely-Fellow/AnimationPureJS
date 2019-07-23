@@ -381,9 +381,6 @@ img.person {
 }
 
 
-
-
-
 .anisticky_section .hideQuote {
   opacity: 0;
   transition: all 500ms;
@@ -391,6 +388,7 @@ img.person {
 
 .anisticky_section .hideQuote.under
 {
+
 	animation-name: zoomOut;
 	-webkit-animation-name: zoomOut;
 }
@@ -400,6 +398,42 @@ img.person {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
+.anisticky_section .quoteboxcontainer.hideQuote.above {
+    -webkit-animation-name: fadeOutUp;
+    animation-name: fadeOutUp;
+}
+.anisticky_section .quoteboxcontainer.showQuote.above {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+}
+@-webkit-keyframes fadeOutUp {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		-webkit-transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
+		transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
+	}
+}
+
+@-webkit-keyframes fadeInDown {
+	0% {
+		opacity: 0;
+		-webkit-transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
+		transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
+	}
+
+	100% {
+		opacity: 1;
+		-webkit-transform: translate3d(0, -200px, 0);
+		transform: translate3d(0, -200px, 0);
+	}
+}
+
+
 
 .cardcontainer.fliparea .front {
 	z-index: 900;

@@ -245,32 +245,42 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 		}
 		var quoteid = "quote" + cardNo;
 		var quoteElement = document.getElementById(quoteid);
-
+		var quoteElementviewportOffset = quoteElement.getBoundingClientRect();
+		var quoteElementTop = quoteElementviewportOffset.top;
+		var quoteElementH = quoteElement.scrollHeight;
+		console.log("quoteElementH", quoteElementH, "quoteElementTop", quoteElementTop);
 		var QuoteBoxs = document.querySelectorAll("#" + quoteid + " .quote_icon");
 
-		for ( i = 0; i < QuoteBoxs.length; i ++)
+		if (!scrollUp && quoteElementTop < anistickyTopH + anistickyTopSpaceH)
 		{
-			var QuoteBox = QuoteBoxs[i];
-			var QuoteBoxviewportOffset = QuoteBox.getBoundingClientRect();
-			var QuoteBoxTop = QuoteBoxviewportOffset.top;
-			var QuoteBoxH = QuoteBox.scrollHeight;
-			console.log("QUoteBox", QuoteBox, "QuoteBoxTop", QuoteBoxTop);
-			if (!scrollUp && QuoteBoxTop < 0 ||
-				scrollUp && QuoteBoxTop > anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
-			{
-				fadeOutQuote(QuoteBox, scrollUp);
-			}
-			else if ( scrollUp && QuoteBoxTop >  0||
-				!scrollUp &&  QuoteBoxTop < anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
-			{
-				fadeInQuote(QuoteBox);
-
-				
-			}
-
+			fadeOutQuote(quoteElement, scrollUp);
+		} else if ( scrollUp && quoteElementTop > -quoteElementH ) {
+			fadeInQuote(quoteElement);
 		}
-		
-		fadeInQuote(quoteElement);
+		else
+		{
+
+			for ( i = 0; i < QuoteBoxs.length; i ++)
+			{
+				var QuoteBox = QuoteBoxs[i];
+				var QuoteBoxviewportOffset = QuoteBox.getBoundingClientRect();
+				var QuoteBoxTop = QuoteBoxviewportOffset.top;
+				var QuoteBoxH = QuoteBox.scrollHeight;
+				console.log("QUoteBox", QuoteBox, "QuoteBoxTop", QuoteBoxTop);
+				
+				if ( scrollUp && QuoteBoxTop > anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
+				{
+
+					fadeOutQuote(QuoteBox, scrollUp);
+				}
+				
+				else( !scrollUp &&  QuoteBoxTop < anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
+				{
+					fadeInQuote(QuoteBox);
+				}
+
+			}
+		}
 
 		/* Mark last shown QuoteBox*/
 		for ( i = 0; i < QuoteBoxs.length; i++ )
