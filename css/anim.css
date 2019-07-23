@@ -75,8 +75,8 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-		position: sticky;
-		position: -webkit-sticky;
+	position: sticky;
+	position: -webkit-sticky;
     top: calc(var(--anistickyTopH) + var(--anistickySpaceH));
 }
 
