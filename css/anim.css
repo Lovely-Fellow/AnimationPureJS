@@ -323,18 +323,29 @@ img.person {
  	transition: all 500ms;
 }
 
-.anisticky_section .quoteboxcontainer.left .showQuote.under
+/*.anisticky_section .quoteboxcontainer.left .showQuote.under
 {
-	animation-name: zoomInLeft;
-	-webkit-animation-name: zoomInLeft;
+	animation-name: zoomIn;
+	-webkit-animation-name: zoomIn;
 }
 
 .anisticky_section .quoteboxcontainer.right .showQuote.under
 {
-	animation-name: zoomInRight;
-	-webkit-animation-name: zoomInRight;
-}
+	animation-name: zoomIn;
+	-webkit-animation-name: zoomIn;
+}*/
 
+@-webkit-keyframes zoomIn {
+	 0% {
+		opacity: 0;
+		-webkit-transform: scale3d(.3,.3,.3);
+		transform: scale3d(.3,.3,.3);
+	}
+
+	50% {
+		opacity: 1;
+	}
+}
 @-webkit-keyframes zoomInLeft {
 	 0% {
 		opacity: 0;
@@ -386,12 +397,12 @@ img.person {
   transition: all 500ms;
 }
 
-.anisticky_section .hideQuote.under
+/*.anisticky_section .hideQuote.under
 {
 
 	animation-name: zoomOut;
 	-webkit-animation-name: zoomOut;
-}
+}*/
 .animated {
     -webkit-animation-duration: 1s;
     animation-duration: 1s;

@@ -257,31 +257,30 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 		} else if ( scrollUp && quoteElementTop > -quoteElementH ) {
 			fadeInQuote(quoteElement);
 		}
-		else
+		
+
+		for ( i = 0; i < QuoteBoxs.length; i ++)
 		{
-
-			for ( i = 0; i < QuoteBoxs.length; i ++)
+			var QuoteBox = QuoteBoxs[i];
+			var QuoteBoxviewportOffset = QuoteBox.getBoundingClientRect();
+			var QuoteBoxTop = QuoteBoxviewportOffset.top;
+			var QuoteBoxH = QuoteBox.scrollHeight;
+			console.log("QUoteBox", QuoteBox, "QuoteBoxTop", QuoteBoxTop);
+			
+			if ( scrollUp && QuoteBoxTop > anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
 			{
-				var QuoteBox = QuoteBoxs[i];
-				var QuoteBoxviewportOffset = QuoteBox.getBoundingClientRect();
-				var QuoteBoxTop = QuoteBoxviewportOffset.top;
-				var QuoteBoxH = QuoteBox.scrollHeight;
-				console.log("QUoteBox", QuoteBox, "QuoteBoxTop", QuoteBoxTop);
-				
-				if ( scrollUp && QuoteBoxTop > anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
-				{
-
-					fadeOutQuote(QuoteBox, scrollUp);
-				}
-				
-				else( !scrollUp &&  QuoteBoxTop < anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
-				{
-					fadeInQuote(QuoteBox);
-				}
-
+				console.log("Hide QuoteBox", QuoteBoxTop);
+				fadeOutQuote(QuoteBox, scrollUp);
 			}
-		}
+			
+			else if ( !scrollUp &&  QuoteBoxTop < anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
+			{
+				console.log("Show QuoteBox", QuoteBox);
+				fadeInQuote(QuoteBox);
+			}
 
+		}
+		
 		/* Mark last shown QuoteBox*/
 		for ( i = 0; i < QuoteBoxs.length; i++ )
 		{
