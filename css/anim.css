@@ -46,6 +46,7 @@
 .anisticky
 {
 	position: sticky;
+	position: -webkit-sticky;	
     width: 100%;
 	/*background:url(./../images/hero-cover.svg);var(--bannerbackcolor);*/
 }
@@ -74,7 +75,8 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    position: sticky;
+		position: sticky;
+		position: -webkit-sticky;
     top: calc(var(--anistickyTopH) + var(--anistickySpaceH));
 }
 
@@ -86,13 +88,13 @@
 }
 .anisticky.bottom
 {
-    top: calc(var(--anistickyTopH) + var(--anistickySpaceH) + var(--anistickycardContainerH) + var(--anistickySpaceH)) ;
+  top: calc(var(--anistickyTopH) + var(--anistickySpaceH) + var(--anistickycardContainerH) + var(--anistickySpaceH)) ;
 	height: var(--anistickybottomH);
 	z-index: 20;
 	background:/*url(./../images/hero-cover.svg);var(--bannerbackcolor);*/
 }
 .anisticky.move {
-    visibility: hidden;
+  visibility: hidden;
 }
 .anisticky.hide
 {
@@ -146,7 +148,7 @@
 	width: 1000px;
 	height: var(--anistickyquoteContainerH);
 	margin: auto;
-    max-width: 100%;
+  max-width: 100%;
 }
 
 
@@ -403,16 +405,22 @@ img.person {
 	z-index: 900;
 	text-align: center;
 	transform: rotateX(0deg) rotateY(0deg);
+	-webkit-transform: rotateX(0deg) rotateY(0deg);
 	transform-style: preserve-3d;
+	-webkit-transform-style: perserve-3d;
 	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 	transition: all .9s ease-in-out;
     opacity: 1;
 }
 .cardcontainer .back {
 	z-index: 1000;
 	transform: rotateY(-180deg);
+	-webkit-transform: rotateY(-180deg);
 	transform-style: preserve-3d;
+	-webkit-transform-style: perserve-3d;
 	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 	transition: all .9s ease-in-out;
     opacity: 1;
 }
