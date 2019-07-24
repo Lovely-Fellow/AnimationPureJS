@@ -60,7 +60,6 @@
 {
 	top:0;
 	height: var(--anistickyTopH);
-
 	z-index: 20;
 }
 .anisticky.topspace
@@ -410,11 +409,11 @@ img.person {
     animation-fill-mode: both;
 }
 
-.anisticky_section .quoteboxcontainer.hideQuote.above {
+.anisticky_section .quoteboxcontainer.hideQuote.animated.above {
     -webkit-animation-name: fadeOutUp;
     animation-name: fadeOutUp;
 }
-.anisticky_section .quoteboxcontainer.showQuote.above {
+.anisticky_section .quoteboxcontainer.showQuote.animated.above {
     -webkit-animation-name: fadeInDown;
     animation-name: fadeInDown;
 }
@@ -422,11 +421,13 @@ img.person {
 	0% {
 		opacity: 1;
 	}
-
-	100% {
+	50% {
 		opacity: 0;
 		-webkit-transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
-		transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
+		transform: translate3d(0, -100%, 0);
+	}
+	100% {
+		opacity: 0;
 	}
 }
 
@@ -436,11 +437,13 @@ img.person {
 		-webkit-transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
 		transform: translate3d(0, calc(0px - var(--anistickyquoteContainerH)), 0);
 	}
-
-	100% {
+	50% {
 		opacity: 1;
 		-webkit-transform: translate3d(0, -200px, 0);
 		transform: translate3d(0, -200px, 0);
+	}
+	100% {
+		opacity: 1;
 	}
 }
 

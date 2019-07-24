@@ -187,8 +187,9 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 	var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
 	var cardNo = 1;
 	var initQuoteScroll = aniheaderH + anistickyTopH + anistickyTopSpaceH + anistickyBottomSpaceH+ anistickybottomH + ShowQuoteStartBottom;
+
 	//console.log("aniheader", aniheaderH, "anistickyTop", anistickyTopH, "anistickyTopSpace", anistickyTopSpaceH, "anistickybottomH", anistickybottomH, "ShowQuoteStartBottom", ShowQuoteStartBottom, "initQuoteScroll", initQuoteScroll);
-	//console.log(st, initQuoteScroll);
+	console.log(st, initQuoteScroll);
 	if (st > initQuoteScroll)
 	{
 		cardNo = Math.trunc((st -initQuoteScroll) / quoteboxContainerH) + 2;
@@ -258,7 +259,7 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 			var elementH = element.scrollHeight / 2;
 			var scroll_offset = elementTop + elementH  - showQuoteStartTop ;
 			console.log("Element", element, "StartTop", showQuoteStartTop, "elementH", elementH, "elementTop", elementTop, "offset", scroll_offset);
-			if (scroll_offset > -50 && scroll_offset < 50)
+			if (scroll_offset > -50 && scroll_offset < 50 && elementTop > anistickyTopH + anistickyTopSpaceH)
 			{
 				window.scrollBy(0, scroll_offset);
 			}
@@ -267,8 +268,17 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 
 //		console.log("quoteElementH", quoteElementH, "quoteElementTop", quoteElementTop);
 		var QuoteBoxs = document.querySelectorAll("#" + quoteid + " .quote_icon");
-
-		if (!scrollUp && quoteElementTop < anistickyTopH + anistickyTopSpaceH)
+		/**
+		 * In mobile, we need to show QuoteBox(quoteElement) if they are not showing all quotes(QuoteBoxs) in it.
+		 *
+		 */
+		var hideStartTop = 0;
+		if (wWidth > 768)
+		{
+			hideStartTop = anistickyTopH + anistickyTopSpaceH;
+		}
+	
+		if (!scrollUp && quoteElementTop < hideStartTop)
 		{
 			fadeOutQuote(quoteElement, scrollUp);
 		} else if ( scrollUp && quoteElementTop > -quoteElementH ) {
@@ -304,7 +314,8 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 			if ( QuoteBox.classList.contains('showQuote') && ( i == QuoteBoxs.length - 1 || QuoteBoxs[i + 1].classList.contains('hideQuote') ) )
 			{
 				addClass(QuoteBoxs[i], 'lastshown');
-				scroll_snap(QuoteBoxs[i]);
+				console.log("QuoteBox[i]", QuoteBoxs[i]);
+				//scroll_snap(QuoteBoxs[i]);
 			}
 			else
 			{
