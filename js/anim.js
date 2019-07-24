@@ -186,7 +186,7 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 
 	var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
 	var cardNo = 1;
-	var initQuoteScroll = aniheaderH + anistickyTopH + anistickyTopSpaceH + anistickybottomH + ShowQuoteStartBottom;
+	var initQuoteScroll = aniheaderH + anistickyTopH + anistickyTopSpaceH + anistickyBottomSpaceH+ anistickybottomH + ShowQuoteStartBottom;
 	//console.log("aniheader", aniheaderH, "anistickyTop", anistickyTopH, "anistickyTopSpace", anistickyTopSpaceH, "anistickybottomH", anistickybottomH, "ShowQuoteStartBottom", ShowQuoteStartBottom, "initQuoteScroll", initQuoteScroll);
 	//console.log(st, initQuoteScroll);
 	if (st > initQuoteScroll)
@@ -248,7 +248,24 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 		var quoteElementviewportOffset = quoteElement.getBoundingClientRect();
 		var quoteElementTop = quoteElementviewportOffset.top;
 		var quoteElementH = quoteElement.scrollHeight;
-		console.log("quoteElementH", quoteElementH, "quoteElementTop", quoteElementTop);
+		var showQuoteStartTop = anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom;
+
+
+		function scroll_snap(element)
+		{
+			var elementviewportOffset = element.getBoundingClientRect();
+			var elementTop = elementviewportOffset.top;
+			var elementH = element.scrollHeight / 2;
+			var scroll_offset = elementTop + elementH  - showQuoteStartTop ;
+			console.log("Element", element, "StartTop", showQuoteStartTop, "elementH", elementH, "elementTop", elementTop, "offset", scroll_offset);
+			if (scroll_offset > -50 && scroll_offset < 50)
+			{
+				window.scrollBy(0, scroll_offset);
+			}
+			
+		}
+
+//		console.log("quoteElementH", quoteElementH, "quoteElementTop", quoteElementTop);
 		var QuoteBoxs = document.querySelectorAll("#" + quoteid + " .quote_icon");
 
 		if (!scrollUp && quoteElementTop < anistickyTopH + anistickyTopSpaceH)
@@ -265,15 +282,14 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 			var QuoteBoxviewportOffset = QuoteBox.getBoundingClientRect();
 			var QuoteBoxTop = QuoteBoxviewportOffset.top;
 			var QuoteBoxH = QuoteBox.scrollHeight;
-			console.log("QUoteBox", QuoteBox, "QuoteBoxTop", QuoteBoxTop);
 			
-			if ( scrollUp && QuoteBoxTop > anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
+			if ( scrollUp && QuoteBoxTop > showQuoteStartTop)
 			{
 				console.log("Hide QuoteBox", QuoteBoxTop);
 				fadeOutQuote(QuoteBox, scrollUp);
 			}
 			
-			else if ( !scrollUp &&  QuoteBoxTop < anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom)
+			else if ( !scrollUp &&  QuoteBoxTop < showQuoteStartTop)
 			{
 				console.log("Show QuoteBox", QuoteBox);
 				fadeInQuote(QuoteBox);
@@ -288,6 +304,7 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 			if ( QuoteBox.classList.contains('showQuote') && ( i == QuoteBoxs.length - 1 || QuoteBoxs[i + 1].classList.contains('hideQuote') ) )
 			{
 				addClass(QuoteBoxs[i], 'lastshown');
+				scroll_snap(QuoteBoxs[i]);
 			}
 			else
 			{
@@ -382,7 +399,6 @@ document.addEventListener("scroll", function(){ // or window.addEventListener("s
 				
 			}
 			fadeIn(cardElement);
-			
 		}
 		else
 		{
