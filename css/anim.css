@@ -297,6 +297,10 @@ img.person {
   z-index:2000;
 }
 
+.anisticky_section .anisticky:not(.fliparea) img#card1.hide {
+    opacity: 1;
+}
+
 .showQuote .Combined-Shape.box
 {
 	margin-top: var(--spaceShownQuote);
