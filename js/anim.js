@@ -154,7 +154,89 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		}
 		e1.classList.remove(className);
 	}
-	function checkFadeQuote(cardNo)
+
+	function checkFadeQuote2(cardNo)
+	{
+		console.log("cardNo", cardNo);
+		if ( cardNo < 2)
+		{
+			cardNo = 2;
+		}
+		else if ( cardNo > maxCardNo)
+		{
+			cardNo = maxCardNo;
+		}
+		var quoteid = "quoteDisplay";
+		var quoteElement = document.getElementById(quoteid);
+		var quoteElementviewportOffset = quoteElement.getBoundingClientRect();
+		var quoteElementTop = quoteElementviewportOffset.top;
+		var quoteElementH = quoteElement.scrollHeight;
+		var showQuoteStartTop = anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom;
+
+
+//		console.log("quoteElementH", quoteElementH, "quoteElementTop", quoteElementTop);
+		var QuoteBoxs = document.querySelectorAll("#" + quoteid + " .quote_icon");
+
+		console.log("scorllUP", scrollUp, "CardNo", cardNo, "FocusQuoteNo", FocusQuoteNo);
+	
+		/*if ( cardNo == FocusQuoteNo )
+		{
+			if (scrollUp)
+			{
+				quoteElement.classList.add('above');
+				quoteElement.classList.remove('under');
+			}
+			else
+			{
+				quoteElement.classList.add('under');
+				quoteElement.classList.remove('above');
+			}
+			fadeInQuote(quoteElement);
+		} else {
+			fadeOutQuote(quoteElement, scrollUp);
+		}*/
+		
+
+		for ( i = 0; i < QuoteBoxs.length; i ++)
+		{
+			var QuoteBox = QuoteBoxs[i];
+			var QuoteBoxviewportOffset = QuoteBox.getBoundingClientRect();
+			var QuoteBoxTop = QuoteBoxviewportOffset.top;
+			var QuoteBoxH = QuoteBox.scrollHeight;
+			
+			if ( i >= FocuseQuoteBubbleNo && !QuoteBox.classList.contains("hideQuote"))
+			{
+				console.log("Hide QuoteBox", QuoteBoxTop);
+				fadeOutQuote(QuoteBox, scrollUp);
+			}
+			
+			else if ( i < FocuseQuoteBubbleNo  && !QuoteBox.classList.contains("showQuote"))
+			{
+				console.log("Show QuoteBox", QuoteBox, "classList", QuoteBox.classList, "including", QuoteBox.classList.contains("showQuote"));
+				fadeInQuote(QuoteBox);
+			}
+
+		}
+		
+		// Mark last shown QuoteBox
+		for ( i = 0; i < QuoteBoxs.length; i++ )
+		{
+			var QuoteBox = QuoteBoxs[i];
+			if ( QuoteBox.classList.contains('showQuote') && ( i == QuoteBoxs.length - 1 || QuoteBoxs[i + 1].classList.contains('hideQuote') ) )
+			{
+				addClass(QuoteBoxs[i], 'lastshown');
+				console.log("QuoteBox[i]", QuoteBoxs[i]);
+				//scroll_snap(QuoteBoxs[i]);
+			}
+			else
+			{
+				removeClass(QuoteBoxs[i], 'lastshown');
+			}
+		}
+	}
+
+
+	/*function checkFadeQuote(cardNo)
 	{
 		console.log("cardNo", cardNo);
 		if ( cardNo < 2)
@@ -242,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				removeClass(QuoteBoxs[i], 'lastshown');
 			}
 		}
-	}
+	}*/
 
 	var wWidth = window.innerWidth
 		|| document.documentElement.clientWidth
@@ -351,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			cardNo = maxCardNo;
 		}
 		
-		checkFadeQuote(cardNo - 1 );
+		/*checkFadeQuote(cardNo - 1 );
 		checkFadeQuote(cardNo);
 		checkFadeQuote(cardNo + 1 );
 
@@ -362,7 +444,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			checkFadeQuote(precardNo);
 			checkFadeQuote(precardNo + 1);
 			precardNo = cardNo;
-		}
+		}*/
 
 		for ( i = 1; i <= maxCardNo; i ++)
 		{
@@ -417,6 +499,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	// element should be replaced with the actual target element on which you have applied scroll, use window in case of no target element.
 
 	var FocusQuoteNo = 0;
+	var preFocusQuoteNo = 0;
 	var FocuseQuoteBubbleNo = 0;
 	var QuoteBubbleCounts =new Array(maxCardNo);
 	var startPos = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
@@ -532,19 +615,66 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	
 	function SetFocusQuote()
 	{
-		console.log("FocusQuoteNo", FocusQuoteNo, "FocuseQuoteBubbleNo", FocuseQuoteBubbleNo);
-		if ( FocusQuoteNo > 1 && FocusQuoteNo < maxCardNo )
+		var quoteDisplayElement = document.getElementById("quoteDisplay");
+		var quoteDisplayElementviewportOffset = quoteDisplayElement.getBoundingClientRect();
+
+
+		console.log("preFocusQuoteNo", preFocusQuoteNo, "FocusQuoteNo", FocusQuoteNo, "FocuseQuoteBubbleNo", FocuseQuoteBubbleNo);
+		if ( FocusQuoteNo > 1 && FocusQuoteNo <= maxCardNo )
 		{
 			fixingPos = 1;
 
 			var st = ( FocusQuoteNo - 2 ) * quoteboxContainerH + initQuoteScroll;
 			var quoteid = "quote" + FocusQuoteNo;
 			var quoteElement = document.getElementById(quoteid);
-			var quoteElementviewportOffset = quoteElement.getBoundingClientRect();
-			var quoteElementTop = quoteElementviewportOffset.top;
-			var quoteElementH = quoteElement.scrollHeight;
 			var showQuoteStartTop = anistickyTopH + anistickyTopSpaceH + anistickycardContainerH - ShowQuoteStartBottom;
-			var QuoteBoxs = document.querySelectorAll("#" + quoteid + " .quote_icon");
+			console.log("preFocusQuoteNo", preFocusQuoteNo, "FocusQuoteNo", FocusQuoteNo);
+			if ( preFocusQuoteNo != FocusQuoteNo)
+			{
+				
+				
+				if ( !scrollUp )
+				{
+					quoteDisplayElement.classList.remove('showQuote');
+					quoteDisplayElement.classList.remove('under');
+					quoteDisplayElement.classList.add('hideQuote');
+					quoteDisplayElement.classList.add('above');
+					setTimeout(function(){
+						quoteDisplayElement.innerHTML = quoteElement.innerHTML;
+						preFocusQuoteNo= FocusQuoteNo;
+						SetFocusQuote();
+					}, 100);
+				} else 
+				{
+					quoteDisplayElement.innerHTML = quoteElement.innerHTML;
+					quoteDisplayElement.style.top = "-1000px";
+					/*quoteDisplayElement.classList.remove('hideQuote');
+					quoteDisplayElement.classList.remove('above');
+					quoteDisplayElement.classList.add('showQuote');
+					quoteDisplayElement.classList.add('under');*/
+					setTimeout(function(){
+						preFocusQuoteNo= FocusQuoteNo;
+						SetFocusQuote();
+					}, 100);
+				}
+				
+				return;
+			}
+			
+			var QuoteBoxs = document.querySelectorAll("#quoteDisplay .quote_icon");
+			var OffsetBubbles = 0;
+			
+			
+			if ( quoteElement.classList.contains("right") )
+			{
+				quoteDisplayElement.classList.remove("left");
+				quoteDisplayElement.classList.add("right");
+			}
+			else
+			{
+				quoteDisplayElement.classList.remove("right");
+				quoteDisplayElement.classList.add("left");
+			}
 			
 			console.log(QuoteBoxs);
 			if (QuoteBoxs)
@@ -553,25 +683,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				{
 					var QuoteBox = QuoteBoxs[i];
 					console.log(QuoteBox);
-					fadeIn(QuoteBox);
 					var QuoteBoxH = QuoteBox.scrollHeight;
 					st = st + QuoteBoxH;
-				}
-				for ( i = 0 ; i < FocuseQuoteBubbleNo; i ++)
-				{
-					var QuoteBox = QuoteBoxs[i];
-					
-					fadeIn(QuoteBox);
-					fadeInQuote(QuoteBox);
-				}
-				for ( i = FocuseQuoteBubbleNo; i < 3; i++ )
-				{
-					var QuoteBox = QuoteBoxs[i];
-					fadeOut(QuoteBox);
-					fadeOutQuote(QuoteBox);
+					OffsetBubbles = OffsetBubbles + QuoteBoxH;
 				}
 
 			}
+			quoteDisplayElement.style.top = (showQuoteStartTop - OffsetBubbles) + "px";
+			if ( !scrollUp )
+			{
+				quoteDisplayElement.classList.remove('hideQuote');
+				quoteDisplayElement.classList.remove('above');
+				quoteDisplayElement.classList.add('showQuote');
+				quoteDisplayElement.classList.add('under');
+			}
+			checkFadeQuote2(FocusQuoteNo);
 			console.log("Moving scroll to ", st);
 			setTimeout(function() {
 					window.scrollTo(0, st);
@@ -586,9 +712,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 			}, 600);
 			
-
 		}
-		
+		else
+		{
+			quoteDisplayElement.innerHTML = '';
+		}
+		preFocusQuoteNo = FocusQuoteNo;
 //		console.log("quoteElementH", quoteElementH, "quoteElementTop", quoteElementTop);
 			
 	}

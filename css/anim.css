@@ -554,3 +554,13 @@ img.person {
 		margin-right:auto;
 	}
 }
+
+
+div#quoteDisplay {
+   position: fixed;
+}
+
+.quoteboxcontainer:not(#quoteDisplay)
+{
+	visibility: hidden;
+}
