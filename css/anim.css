@@ -557,7 +557,13 @@ img.person {
 
 
 div#quoteDisplay {
-   position: fixed;
+	position: fixed;
+}
+@media (min-width: 1000px)
+{
+	div#quoteDisplay {
+		left: calc(50% - 500px);
+	}
 }
 
 .quoteboxcontainer:not(#quoteDisplay)

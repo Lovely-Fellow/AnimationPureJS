@@ -500,6 +500,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	var FocusQuoteNo = 0;
 	var preFocusQuoteNo = 0;
+	var preFocusBubbleNo = 0;
 	var FocuseQuoteBubbleNo = 0;
 	var QuoteBubbleCounts =new Array(maxCardNo);
 	var startPos = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
@@ -589,6 +590,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			
 			SetFocusQuote(FocusQuoteNo, FocuseQuoteBubbleNo);
 		}
+		else
+		{
+			var quoteDisplayElement = document.getElementById("quoteDisplay");
+			quoteDisplayElement.innerHTML = '';
+		}
 	}
 
 	function CheckFullScrollDown() {
@@ -608,6 +614,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			}
 		
 			SetFocusQuote(FocusQuoteNo, FocuseQuoteBubbleNo);
+		}
+		else
+		{
+			var quoteDisplayElement = document.getElementById("quoteDisplay");
+			quoteDisplayElement.innerHTML = '';
 		}
 		
 		
@@ -631,9 +642,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			console.log("preFocusQuoteNo", preFocusQuoteNo, "FocusQuoteNo", FocusQuoteNo);
 			if ( preFocusQuoteNo != FocusQuoteNo)
 			{
-				
-				
-				if ( !scrollUp )
+				if ( !scrollUp && preFocusBubbleNo == 3)
 				{
 					quoteDisplayElement.classList.remove('showQuote');
 					quoteDisplayElement.classList.remove('under');
@@ -642,9 +651,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					setTimeout(function(){
 						quoteDisplayElement.innerHTML = quoteElement.innerHTML;
 						preFocusQuoteNo= FocusQuoteNo;
+						preFocusBubbleNo = 0;
 						SetFocusQuote();
 					}, 100);
-				} else 
+					return;
+				} else if (scrollUp && FocuseQuoteBubbleNo == 3)
 				{
 					quoteDisplayElement.innerHTML = quoteElement.innerHTML;
 					quoteDisplayElement.style.top = "-1000px";
@@ -656,9 +667,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						preFocusQuoteNo= FocusQuoteNo;
 						SetFocusQuote();
 					}, 100);
+					return;
 				}
-				
-				return;
+				quoteDisplayElement.innerHTML = quoteElement.innerHTML;
 			}
 			
 			var QuoteBoxs = document.querySelectorAll("#quoteDisplay .quote_icon");
@@ -718,6 +729,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			quoteDisplayElement.innerHTML = '';
 		}
 		preFocusQuoteNo = FocusQuoteNo;
+		preFocusBubbleNo = FocuseQuoteBubbleNo;
+
 //		console.log("quoteElementH", quoteElementH, "quoteElementTop", quoteElementTop);
 			
 	}
